@@ -101,7 +101,6 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    print('hello from detector');
                     FocusScope.of(context).requestFocus(_focusNode);
                   },
                   child: Container(
