@@ -13,11 +13,25 @@ class ShoppingListScreen extends StatelessWidget {
         builder: (context, shoppingList, _) {
           return ListView.builder(
             itemBuilder: (context, i) {
+              if (i == shoppingList.numItems) {
+                return ListTile(
+                  leading: Checkbox(
+                    value: false,
+                    onChanged: (_) {},
+                  ),
+                  title: TextField(
+                    autocorrect: false,
+                    onChanged: (input) => shoppingList.updateInput(input),
+                    onSubmitted: (_) => shoppingList.addToList(),
+                  ),
+                );
+              }
+
               final item = shoppingList.items[i];
               return ListTile(
                 leading: Checkbox(
                   value: item.done,
-                  onChanged: (value) {
+                  onChanged: (_) {
                     shoppingList.toggle(i);
                   },
                   checkColor: Theme.of(context).toggleableActiveColor,
@@ -30,7 +44,7 @@ class ShoppingListScreen extends StatelessWidget {
                 ),
               );
             },
-            itemCount: shoppingList.numItems,
+            itemCount: shoppingList.numItems + 1,
           );
         },
       ),
