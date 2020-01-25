@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kaimono/stores/shopping_list.dart';
+import 'package:provider/provider.dart';
 
 class ShoppingListScreen extends StatelessWidget {
   @override
@@ -7,8 +9,17 @@ class ShoppingListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('kaimono list'),
       ),
-      body: Center(
-        child: Text('list'),
+      body: Consumer<ShoppingList>(
+        builder: (context, shoppingList, _) {
+          return ListView.builder(
+            itemBuilder: (context, i) {
+              return ListTile(
+                title: Text(shoppingList.items[i].name),
+              );
+            },
+            itemCount: shoppingList.numItems,
+          );
+        },
       ),
     );
   }
