@@ -11,7 +11,11 @@ class ShoppingListScreen extends StatelessWidget {
       ),
       body: Consumer<ShoppingList>(
         builder: (context, shoppingList, _) {
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (context, i) => Container(
+              color: Colors.grey[300],
+              height: 1,
+            ),
             itemBuilder: (context, i) {
               if (i == shoppingList.numItems) {
                 return ListTile(
@@ -23,6 +27,9 @@ class ShoppingListScreen extends StatelessWidget {
                     autocorrect: false,
                     onChanged: (input) => shoppingList.updateInput(input),
                     onSubmitted: (_) => shoppingList.addToList(),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                    ),
                   ),
                 );
               }
@@ -33,6 +40,7 @@ class ShoppingListScreen extends StatelessWidget {
                 background: Container(
                   color: Colors.red[300],
                 ),
+                direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
                   if (direction == DismissDirection.endToStart) {
                     shoppingList.removeFromList(i);
@@ -40,6 +48,10 @@ class ShoppingListScreen extends StatelessWidget {
                   Scaffold.of(context).showSnackBar(
                     SnackBar(
                       content: Text('「${item.name}」がリストから削除されました'),
+                      action: SnackBarAction(
+                        label: '再追加',
+                        onPressed: shoppingList.undoRemove,
+                      ),
                     ),
                   );
                 },

@@ -9,6 +9,8 @@ class ShoppingList with ChangeNotifier {
     ShoppingItem(name: '牛乳'),
     ShoppingItem(name: '鶏むね肉 400'),
   ];
+  ShoppingItem _lastDeletedItem;
+  int _lastDeletedIndex;
 
   void updateInput(String input) {
     _input = input;
@@ -24,7 +26,17 @@ class ShoppingList with ChangeNotifier {
   }
 
   void removeFromList(int i) {
+    _lastDeletedIndex = i;
+    _lastDeletedItem = _items[i];
+
     _items.removeAt(i);
+    notifyListeners();
+  }
+
+  void undoRemove() {
+    if (_lastDeletedItem == null) return;
+
+    _items.insert(_lastDeletedIndex, _lastDeletedItem);
     notifyListeners();
   }
 
