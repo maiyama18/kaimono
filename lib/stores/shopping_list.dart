@@ -23,6 +23,11 @@ class ShoppingList with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeFromList(int i) {
+    _items.removeAt(i);
+    notifyListeners();
+  }
+
   UnmodifiableListView<ShoppingItem> get items {
     return UnmodifiableListView(_items);
   }

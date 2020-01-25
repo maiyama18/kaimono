@@ -28,18 +28,34 @@ class ShoppingListScreen extends StatelessWidget {
               }
 
               final item = shoppingList.items[i];
-              return ListTile(
-                leading: Checkbox(
-                  value: item.done,
-                  onChanged: (_) {
-                    shoppingList.toggle(i);
-                  },
-                  checkColor: Theme.of(context).toggleableActiveColor,
+              return Dismissible(
+                key: Key(item.name),
+                background: Container(
+                  color: Colors.red[300],
                 ),
-                title: Text(
-                  item.name,
-                  style: TextStyle(
-                    decoration: item.done ? TextDecoration.lineThrough : null,
+                onDismissed: (direction) {
+                  if (direction == DismissDirection.endToStart) {
+                    shoppingList.removeFromList(i);
+                  }
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('「${item.name}」がリストから削除されました'),
+                    ),
+                  );
+                },
+                child: ListTile(
+                  leading: Checkbox(
+                    value: item.done,
+                    onChanged: (_) {
+                      shoppingList.toggle(i);
+                    },
+                    checkColor: Theme.of(context).toggleableActiveColor,
+                  ),
+                  title: Text(
+                    item.name,
+                    style: TextStyle(
+                      decoration: item.done ? TextDecoration.lineThrough : null,
+                    ),
                   ),
                 ),
               );
