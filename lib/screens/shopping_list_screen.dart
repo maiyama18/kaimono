@@ -13,8 +13,21 @@ class ShoppingListScreen extends StatelessWidget {
         builder: (context, shoppingList, _) {
           return ListView.builder(
             itemBuilder: (context, i) {
+              final item = shoppingList.items[i];
               return ListTile(
-                title: Text(shoppingList.items[i].name),
+                leading: Checkbox(
+                  value: item.done,
+                  onChanged: (value) {
+                    shoppingList.toggle(i);
+                  },
+                  checkColor: Theme.of(context).toggleableActiveColor,
+                ),
+                title: Text(
+                  item.name,
+                  style: TextStyle(
+                    decoration: item.done ? TextDecoration.lineThrough : null,
+                  ),
+                ),
               );
             },
             itemCount: shoppingList.numItems,
